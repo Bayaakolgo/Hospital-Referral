@@ -881,7 +881,7 @@ def patient_view_appointment_view(request):
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
 def patient_view_referral_view(request):
-    referral = models.Referral.objects.all()
+    referral = models.Referral.objects.all().filter(patientId=request.user.id)
     patient=models.Patient.objects.get(user_id=request.user.id) # for profile picture of patient in sidebar
     #referral=models.Referral.objects.all().filter(patientId=request.user.id)
     return render(request,'hospital/patient_view_referral.html',{'referral':referral,'patient':patient})
