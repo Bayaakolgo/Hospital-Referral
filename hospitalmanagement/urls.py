@@ -6,8 +6,9 @@ from django.contrib.auth.views import LoginView,LogoutView
 
 #-------------FOR ADMIN RELATED URLS
 urlpatterns = [
+    
     path('admin/', admin.site.urls),
-    path('home',views.home_view,name=''),
+    path('',views.home_view,name=''),
 
 
     path('aboutus', views.aboutus_view),
@@ -66,8 +67,8 @@ urlpatterns = [
 
     path('admin-referral',views.admin_referral_veiw,name='admin=referral'),
     path('admin-view-referral',views.admin_view_referral_view,name='admin-view-referral'),
-    path('admin-add-referral',views.admin_add_referral_view,name='admin-add-referral'),
-    path('admin-approve-referral',views.admin_approve_referral_view,name='admin-approve-referral'),
+    #path('admin-add-referral',views.admin_add_referral_view,name='admin-add-referral'),
+    #path('admin-approve-referral',views.admin_approve_referral_view,name='admin-approve-referral'),
 ]
 
 
@@ -86,6 +87,7 @@ urlpatterns +=[
     path('delete-appointment/<int:pk>', views.delete_appointment_view,name='delete-appointment'),
 
     path('doctor-referral', views.doctor_referral_view,name='doctor-referral'),
+    path('doctor-add-referral',views.doctor_add_referral_view,name='doctor-add-referral'),
     path('doctor-view-referral', views.doctor_view_referral_view,name='doctor-view-referral'),
     path('doctor-delete-referral',views.doctor_delete_referral_view,name='doctor-delete-referral'),
     path('delete-referral/<int:pk>',views.delete_referral_view,name='delete-referral'),
