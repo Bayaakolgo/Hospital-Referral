@@ -31,22 +31,15 @@
       <thead>
         <tr>
           <th>Doctor Name</th>
-          <th>Description</th>
+          <th>Medical History</th>
           <th>Date</th>
-          <th>Status</th>
         </tr>
       </thead>
-      {% for r in appointments %}
+      {% for r in referral %}
       <tr>
         <td> {{r.doctorName}}</td>
-        <td>{{r.description}}</td>
-        <td>{{r.appointmentDate}}</td>
-        {%if r.status%}
-        <td> <span class="label label-primary">Confirmed</span></td>
-        {% else %}
-        <td> <span class="label label-success">Pending</span></td>
-        {% endif %}
-      </tr>
+        <td>{{r.medicalHist}}</td>
+        <td>{{r.referralDate}}</td>
       {% endfor %}
     </table>
   </div>

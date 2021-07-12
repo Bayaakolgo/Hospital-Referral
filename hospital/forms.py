@@ -32,7 +32,7 @@ class ReferralForm(forms.ModelForm):
     patientId=forms.ModelChoiceField(queryset=models.Patient.objects.all().filter(status=True),empty_label="Patient Name and Symptoms", to_field_name="user_id")
     class Meta:
         model=models.Referral
-        fields=['medicalHist','status']
+        fields=['medicalHist']
 
 
 
