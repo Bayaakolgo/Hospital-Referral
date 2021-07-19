@@ -1,0 +1,199 @@
+{% extends 'hospital/admin_base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<head>
+    <style media="screen">
+        a:link {
+            text-decoration: none;
+        }
+
+        .note {
+            text-align: center;
+            height: 80px;
+            background: -webkit-linear-gradient(left, #0072ff, #8811c5);
+            color: #fff;
+            font-weight: bold;
+            line-height: 80px;
+        }
+
+        .form-content {
+            padding: 5%;
+            border: 1px solid #ced4da;
+            margin-bottom: 2%;
+        }
+
+        .form-control {
+            border-radius: 1.5rem;
+        }
+
+        .btnSubmit {
+            border: none;
+            border-radius: 1.5rem;
+            padding: 1%;
+            width: 20%;
+            cursor: pointer;
+            background: #0062cc;
+            color: #fff;
+        }
+
+        .menu {
+            top: 50px;
+        }
+    </style>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-steps/1.1.0/jquery.steps.min.js"></script>
+</head>
+<br><br>
+<div class="wrapper">
+    <form action="" method="POST">
+    {% csrf_token %}
+        <div id="wizard">
+            <div class="note">
+                <p>Patient Referral Form</p>
+            </div>
+            <div class="form-content">
+                <div class="note">
+                    <p>Referring To</p>
+                </div>
+                <br><br>
+                <div class="row">
+                    <div class="col-md-12">
+                        {% render_field referralForm.date class="form-control" placeholder="Date: mm/dd/yyyy" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.referralTo class="form-control" placeholder="Name of facility or service" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.focalPoint class="form-control" placeholder="Full Name of Referral" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.referralPhone class="form-control" placeholder="Phone Number" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.referralAddress class="form-control" placeholder="Location" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.referralEmail class="form-control" placeholder="Email" %}
+                    </div>
+                    <br><br>
+                </div>
+
+                <div class="note">
+                    <p>Referring From</p>
+                </div>
+                <br><br>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        {% render_field referralForm.referringFrom class="form-control" placeholder="Name of facility or service" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.foculPoint1 class="form-control" placeholder="Full Name of Referrer" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.referringPhone class="form-control" placeholder="Phone Number" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.referringAddress class="form-control" placeholder="Location" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.referringEmail class="form-control" placeholder="Email" %}
+                    </div>
+                    <br><br>
+                </div>
+
+                <div class="note">
+                    <p>Patient Information</p>
+                </div>
+                <br><br>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        {% render_field referralForm.patientId class="form-control" placeholder="Patient Full Name" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.patientNumber class="form-control" placeholder="Patient Phone Number" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.dob class="form-control" placeholder="Date of birth mm/dd/yyy" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.gender class="form-control" placeholder="Gender" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.patientAddress class="form-control" placeholder="Patient Address" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.primaryDiagnose class="form-control" placeholder="Primary Diagnose" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.otherDiagnose class="form-control" placeholder="Other Diagnose" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.treatments class="form-control" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.referralReason class="form-control" placeholder="Reason for referral" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.transportationNeeds class="form-control" placeholder="Transportation requirements/special considerations/frequency" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.followupRequirements class="form-control" placeholder="Follow-up requirements such as date of surgical review, removal of cast, or removal of external fixator" %}
+                    </div>
+                    <br><br>
+                </div> 
+
+                <div class="note">
+                    <p>Functional Status</p>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        {% render_field referralForm.mobility class="form-control" placeholder="Mobility" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.precautions class="form-control" placeholder="Precautions such as weight bearing restrictions or spinal precautions" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.selfCare class="form-control" placeholder="Self-care" %}
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        {% render_field referralForm.cognitiveImpairment class="form-control" placeholder="Cognitive impairment" %}
+                    </div>
+                    <br><br>
+                    <button type="submit" class="btnSubmit">Request</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

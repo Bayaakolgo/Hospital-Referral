@@ -28,22 +28,25 @@
         <table class="table table-hover" id="dev-table">
             <thead>
                 <tr>
-                    <th>Doctor Name</th>
-                    <th>Patient Name</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Approve</th>
-                    <th>Reject</th>
+                  <th>Patient Name</th>
+                  <th>Mobile</th> 
+                  <th>Referred To</th> 
+                  <th>Referred From</th>
+                  <th>Patient Condition</th>
+                  <th>Date</th>
+                  <th>Approve</th>
+                  <th>Reject</th>
                 </tr>
             </thead>
             {% for r in referral %}
             <tr>
-                <td> {{r.doctorName}}</td>
-                <td>{{r.patientName}}</td>
-                <td>{{r.medicalHist}}</td>
-                <td>{{r.referraltDate}}</td>
-                <td><a class="btn btn-primary btn-xs" href="{% url 'approve-referral' r.id  %}"><span class="glyphicon glyphicon-ok"></span></a></td>
-                <td><a class="btn btn-danger btn-xs" href="{% url 'reject-referral' r.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
+              <td>{{r.patientName}}</td>
+              <td>{{r.patientNumber}}</td>
+              <td>{{r.referTo}}</td>
+              <td>{{r.referFrom}}</td>
+              <td>{{r.patientCondition}}</td>
+              <td><a class="btn btn-primary btn-xs" href="{% url 'approve-referral' r.id  %}"><span class="glyphicon glyphicon-ok"></span></a></td>
+               <td><a class="btn btn-danger btn-xs" href="{% url 'reject-referral' r.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
             </tr>
             {% endfor %}
         </table>

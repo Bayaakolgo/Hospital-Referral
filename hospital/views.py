@@ -1,3 +1,4 @@
+from django.db.models.query_utils import refs_expression
 from django.shortcuts import render,redirect,reverse
 from . import forms,models
 from django.db.models import Sum
@@ -163,6 +164,7 @@ def admin_dashboard_view(request):
     mydict={
     'doctors':doctors,
     'patients':patients,
+    'referrals':referrals,
     'doctorcount':doctorcount,
     'pendingdoctorcount':pendingdoctorcount,
     'patientcount':patientcount,
@@ -562,26 +564,24 @@ def admin_referral_veiw(request):
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_view_referral_view(request):
-    referrals=models.Referral.objects.all().filter(status=True)
+    referrals = models.Referral.objects.all()
     return render(request,'hospital/admin_view_referral.html',{'referrals':referrals})
 
-# @login_required(login_url='adminlogin')
-# @user_passes_test(is_admin)
-# def admin_add_referral_view(request):
-#     referralForm=forms.ReferralForm()
-#     mydict={'referralForm':referralForm,}
-#     if request.method=='POST':
-#         referralForm=forms.AppointmentForm(request.POST)
-#         if referralForm.is_valid():
-#             referral=referralForm.save(commit=False)
-#             referral.doctorId=request.POST.get('doctorId')
-#             referral.patientId=request.POST.get('patientId')
-#             referral.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
-#             referral.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
-#             referral.status=True
-#             referral.save()
-#         return HttpResponseRedirect('admin-view-referral')
-#     return render(request,'hospital/admin_add_referral.html',context=mydict)
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_add_referral_view(request):
+    referralForm=forms.ReferralForm()
+    mydict={'referralForm':referralForm,}
+    if request.method=='POST':
+        print(request.POST)
+        referralForm=forms.PatientReferralForm(request.POST)
+        if referralForm.is_valid():
+            referralForm.patientId=request.POST.get('patientId')
+            referralForm.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
+            referralForm.status=True
+            referralForm.save()
+        return HttpResponseRedirect('admin-view-referral')
+    return render(request,'hospital/admin_add_referral.html',context=mydict)
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
@@ -624,20 +624,24 @@ def doctor_dashboard_view(request):
     patientcount=models.Patient.objects.all().filter(status=True,assignedDoctorId=request.user.id).count()
     appointmentcount=models.Appointment.objects.all().filter(status=True,doctorId=request.user.id).count()
     patientdischarged=models.PatientDischargeDetails.objects.all().distinct().filter(assignedDoctorName=request.user.first_name).count()
-    referralcount=models.Referral.objects.all().filter(status=True,doctorId=request.user.id).count()
+    #referralcount=models.InternalReferral.objects.all().filter(status=True,doctorId=request.user.id).count()
 
     #for  table in doctor dashboard
     appointments=models.Appointment.objects.all().filter(status=True,doctorId=request.user.id).order_by('-id')
+    #referrals=models.InternalReferral.objects.all().filter(status=True,doctorId=request.user.id).order_by('-di')
     patientid=[]
     for a in appointments:
         patientid.append(a.patientId)
     patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid).order_by('-id')
     appointments=zip(appointments,patients)
+    
     mydict={
     'patientcount':patientcount,
     'appointmentcount':appointmentcount,
     'patientdischarged':patientdischarged,
     'appointments':appointments,
+    #'referrals':referrals,
+    #'referralcount':referralcount,
     'doctor':models.Doctor.objects.get(user_id=request.user.id), #for profile picture of doctor in sidebar
     }
     return render(request,'hospital/doctor_dashboard.html',context=mydict)
@@ -729,26 +733,37 @@ def doctor_referral_view(request):
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_add_referral_view(request):
-    referralForm=forms.ReferralForm()
-    mydict={'referralForm':referralForm,}
+    internalForm=forms.InternalReferralForm()
+    doctor=models.Doctor.objects.get(user_id=request.user.id) #for profile picture of doctor in sidebar
+    message=None
+    mydict={'internalForm':internalForm,'doctor':doctor,'message':message}
     if request.method=='POST':
-        referralForm=forms.PatientReferralForm(request.POST)
-        if referralForm.is_valid():
-            referral=referralForm.save(commit=False)
-            referral.doctorId=request.POST.get('doctorId')
-            referral.patientId=request.POST.get('patientId')
-            referral.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
-            referral.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
-            referral.status=True
-            referral.save()
+        internalForm=forms.PatientInternalReferralForm(request.POST)
+        if internalForm.is_valid():
+            print(request.POST.get('doctorId'))
+            desc=request.POST.get('referralReason')
+
+            doctor=models.Doctor.objects.get(user_id=request.POST.get('doctorId'))
+
+            internalForm.save(commit=False)
+            internalForm.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
+            internalForm.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
+            internalForm.status=True
+            internalForm.save()
         return HttpResponseRedirect('doctor-view-referral')
     return render(request,'hospital/doctor_add_referral.html',context=mydict)
 
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
-def doctor_view_referral_view(request):    
-    referrals = models.Referral.objects.all().filter(doctorId=request.user.id, status=True)
-    return render(request, 'hospital/doctor_view_referral.html', {'referrals': referrals})
+def doctor_view_referral_view(request):
+    doctor=models.Doctor.objects.get(user_id=request.user.id) #for profile picture of doctor in sidebar
+    referrals = models.InternalReferral.objects.all()
+    #patientid=[]
+    #for r in referrals:
+    #    patientid.append(r.patientId)
+    #patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
+    #referrals=zip(referrals,patients)
+    return render(request, 'hospital/doctor_view_referral.html', {'referrals': referrals, 'doctor':doctor})
 
     # doctor=models.Doctor.objects.get(user_id=request.user.id) #for profile picture of doctor in sidebar
     # referral=models.Referral.objects.all().filter(status=True,doctorId=request.user.id)
@@ -761,7 +776,7 @@ def doctor_view_referral_view(request):
 @user_passes_test(is_doctor)
 def doctor_delete_referral_view(request):
     doctor=models.Doctor.objects.get(user_id=request.user.id) #for profile picture of doctor in sidebar
-    referral=models.Referral.objects.all().filter(status=True,doctorId=request.user.id)
+    referral=models.InternalReferral.objects.all().filter(status=True,doctorId=request.user.id)
     patientid=[]
     for r in referral:
         patientid.append(r.patientId)
@@ -772,10 +787,10 @@ def doctor_delete_referral_view(request):
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def delete_referral_view(request,pk):
-    referral=models.Referral.objects.get(id=pk)
+    referral=models.InternalReferral.objects.get(id=pk)
     referral.delete()
     doctor=models.Doctor.objects.get(user_id=request.user.id) #for profile picture of doctor in sidebar
-    referral=models.Referral.objects.all().filter(status=True,doctorId=request.user.id)
+    referral=models.InternalReferral.objects.all().filter(status=True,doctorId=request.user.id)
     patientid=[]
     for r in referral:
         patientid.append(r.patientId)
@@ -867,8 +882,6 @@ def search_doctor_view(request):
     query = request.GET['query']
     doctors=models.Doctor.objects.all().filter(status=True).filter(Q(department__icontains=query)| Q(user__first_name__icontains=query))
     return render(request,'hospital/patient_view_doctor.html',{'patient':patient,'doctors':doctors})
-
-
 
 
 @login_required(login_url='patientlogin')

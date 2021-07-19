@@ -30,22 +30,27 @@
     <table class="table table-hover" id="dev-table">
       <thead>
         <tr>
+          <th>Date</th>
           <th>Patient Name</th>
-          <th>Picture</th>
-          <th>Medical History</th>
-          <th>Referred To</th>
-          <th>Referred From</th>
+          <th>Doctor Name</th>
           <th>Reason</th>
+          <th>Primary Diagnose</th>
+          <th>Treatments Given</th>
         </tr>
       </thead>
       {% for r in referrals %}
       <tr>
+        <td>{{r.referralDate}}</td>
         <td>{{r.patientName}}</td>
-        <td> <img src="{% static p.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
-        <td>{{r.medicalHist}}</td>
-        <td>{{r.referredTo}}</td>
-        <td>{{r.referredFrom}}</td>
-        <td>{{r.reason}}</td>
+        <td>{{r.doctorName}}</td>
+        <td>{{r.referralReason}}</td>
+        <td>{{r.primaryDiagnose}}</td>
+        <td>{{r.treatments}}</td>
+        {%if a.status%}
+        <td> <span class="label label-primary">Confirmed</span></td>
+        {% else %}
+        <td> <span class="label label-success">Pending</span></td>
+        {% endif %}
       </tr>
       {% endfor %}
     </table>

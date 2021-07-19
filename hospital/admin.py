@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Doctor,Patient,Appointment,PatientDischargeDetails,Referral
+from .models import Doctor,Patient,Appointment,PatientDischargeDetails,Referral,InternalReferral
 
 
 # Register your models here.
@@ -22,3 +22,7 @@ admin.site.register(PatientDischargeDetails, PatientDischargeDetailsAdmin)
 class ReferralAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Referral, ReferralAdmin)
+
+class InternalReferralAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(InternalReferral, InternalReferralAdmin)
