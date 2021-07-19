@@ -8,7 +8,7 @@ from django.contrib.auth.views import LoginView,LogoutView
 urlpatterns = [
     
     path('admin/', admin.site.urls),
-    path('',views.home_view,name=''),
+    path('home/',views.home_view,name=''),
 
 
     path('aboutus', views.aboutus_view),
@@ -29,7 +29,7 @@ urlpatterns = [
 
 
     path('afterlogin', views.afterlogin_view,name='afterlogin'),
-    path('logout', LogoutView.as_view(template_name='hospital/index.html'),name='logout'),
+    path('logout/', LogoutView.as_view(template_name='hospital/index.html'),name='logout'),
 
 
     path('admin-dashboard', views.admin_dashboard_view,name='admin-dashboard'),
@@ -67,8 +67,8 @@ urlpatterns = [
 
     path('admin-referral',views.admin_referral_veiw,name='admin=referral'),
     path('admin-view-referral',views.admin_view_referral_view,name='admin-view-referral'),
-    #path('admin-add-referral',views.admin_add_referral_view,name='admin-add-referral'),
-    #path('admin-approve-referral',views.admin_approve_referral_view,name='admin-approve-referral'),
+    path('admin-add-referral',views.admin_add_referral_view,name='admin-add-referral'),
+    path('admin-approve-referral',views.admin_approve_referral_view,name='admin-approve-referral'),
 ]
 
 

@@ -67,38 +67,6 @@
       </table>
     </div>
 
-    <div class="panel panel-primary col-md-5" style="margin-left:5%;">
-      <div class="panel-heading" style="text-align:center;">
-        <h6 class="panel-title">Recent Referrals</h6>
-      </div>
-      <table class="table table-hover" id="dev-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Medical History</th>
-            <th>Referred To</th>
-            <th>Referred From</th>
-            <th>Reason</th>
-
-          </tr>
-        </thead>
-        {% for r in referrals %}
-        <tr>
-          <td> {{r.get_name}}</td>
-          <td>{{r.medcialHist}}</td>
-          <td>{{r.referredTo}}</td>
-          <td>{{r.referredFrom}}</td>
-          <td>{{r.reason}}</td>
-          {%if r.status%}
-          <td> <span class="label label-primary">Referred</span></td>
-          {% else %}
-          <td> <span class="label label-success">On Hold</span></td>
-          {% endif %}
-
-        </tr>
-        {% endfor %}
-      </table>
-    </div>
   </div>
 </div>
 

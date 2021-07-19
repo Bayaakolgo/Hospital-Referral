@@ -1,4 +1,4 @@
-{% extends 'hospital/admin_base.html' %}
+{% extends 'hospital/doctor_base.html' %}
 {% load widget_tweaks %}
 {% block content %}
 
@@ -48,7 +48,7 @@
 </head>
 <br><br>
 <!------ add referral page by admin(sumit)  ---------->
-<form method="post">
+<form action="" method="post">
     {% csrf_token %}
     <div class="container register-form">
         <div class="form">
@@ -59,13 +59,19 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            {% render_field referralForm.medicalHist class="form-control" placeholder="Medical History" %}
+                            {% render_field internalForm.referralReason class="form-control" placeholder="Reason for Referral" %}
                         </div>
                         <div class="form-group">
-                            {% render_field referralForm.doctorId class="form-control" placeholder="doctor" %}
+                            {% render_field internalForm.primaryDiagnose class="form-control" placeholder="Primary Diagnose" %}
                         </div>
                         <div class="form-group">
-                            {% render_field referralForm.patientId class="form-control" placeholder="patient" %}
+                            {% render_field internalForm.treatments class="form-control" placeholder="Treatments Given" %}
+                        </div>
+                        <div class="form-group">
+                            {% render_field internalForm.doctorId class="form-control" placeholder="doctor" %}
+                        </div>
+                        <div class="form-group">
+                            {% render_field internalForm.patientId class="form-control" placeholder="patient" %}
                         </div>
 
                     </div>

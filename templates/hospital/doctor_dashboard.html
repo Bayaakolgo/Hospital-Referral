@@ -42,10 +42,10 @@
           <tr>
             <th>Patient Name</th>
             <th>Picture</th>
-            <th>Medical History</th>
+            <th>Mobile </th>
             <th>Referred To</th>
             <th>Referred From</th>
-            <th>Reason</th>
+            <th>Patient Condition</th>
 
           </tr>
         </thead>
@@ -53,10 +53,10 @@
         <tr>
           <td> {{r.get_name}}</td>
           <td> <img src="{% static p.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
-          <td>{{r.medcialHist}}</td>
-          <td>{{r.referredTo}}</td>
-          <td>{{r.referredFrom}}</td>
-          <td>{{r.reason}}</td>
+          <td>{{r.patientNumber}}</td>
+          <td>{{r.referTo}}</td>
+          <td>{{r.referFrom}}</td>
+          <td>{{r.patientCondition}}</td>
           {%if r.status%}
           <td> <span class="label label-primary">Referred</span></td>
           {% else %}

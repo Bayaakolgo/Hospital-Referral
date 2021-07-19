@@ -51,6 +51,15 @@
     }
 
     .market-update-block.clr-block-3 {
+      background: #4c145a;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+      transition: 0.5s all;
+      -webkit-transition: 0.5s all;
+      -moz-transition: 0.5s all;
+      -o-transition: 0.5s all;
+    }
+
+    .market-update-block.clr-block-4 {
       background: #1355f9;
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
       transition: 0.5s all;
@@ -76,6 +85,14 @@
     }
 
     .market-update-block.clr-block-3:hover {
+      background: #333041;
+      transition: 0.5s all;
+      -webkit-transition: 0.5s all;
+      -moz-transition: 0.5s all;
+      -o-transition: 0.5s all;
+    }
+
+    .market-update-block.clr-block-4:hover {
       background: #3C3C3C;
       transition: 0.5s all;
       -webkit-transition: 0.5s all;
@@ -165,6 +182,19 @@
     </div>
     <div class="col-md-4 market-update-gd">
       <div class="market-update-block clr-block-3">
+        <div class="col-md-8 market-update-left">
+          <h3>{{referralcount}}</h3>
+          <h4>Total Referrals</h4>
+          <p>Approval Required : {{pendingreferralcount}}</p>
+        </div>
+        <div class="col-md-4 market-update-right">
+          <i class="fa fa-calendar"></i>
+        </div>
+        <div class="clearfix"> </div>
+      </div>
+    </div>
+    <div class="col-md-4 market-update-gd">
+      <div class="market-update-block clr-block-4">
         <div class="col-md-8 market-update-left">
           <h3>{{appointmentcount}}</h3>
           <h4>Total Appointment</h4>
